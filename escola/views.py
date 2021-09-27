@@ -7,6 +7,10 @@ from escola.serializer import AlunoSerializer, AlunoSerializerV2, CursoSerialize
 
 
 def insert_data(instance, request):
+    """
+    Função criada para retornar o location no response.
+    Todo: return response if not serializer.is_valid()
+    """
     serializer = instance.serializer_class(data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -31,9 +35,10 @@ class CursosViewSet(viewsets.ModelViewSet):
     """Exibindo todos os cursos"""
     queryset = Curso.objects.all()
     serializer_class = CursoSerializer
+    http_method_names = ['get', 'post', 'put', 'patch']
 
-    def create(self, request):
-        return insert_data(self, request)
+    # def create(self, request):
+    #     return insert_data(self, request)
 
 
 class MatriculaViewSet(viewsets.ModelViewSet):
@@ -42,10 +47,10 @@ class MatriculaViewSet(viewsets.ModelViewSet):
     serializer_class = MatriculaSerializer
     http_method_names = ['get', 'post', 'put', 'patch']
 
-    def create(self, request):
-        return insert_data(self, request)
+    # def create(self, request):
+    #     return insert_data(self, request)
 
-    @method_decorator(cache_page(20))
+    @method_decorator(cache_page(30))
     def dispatch(self, *args, **kwargs):
         return super(MatriculaViewSet, self).dispatch(*args, **kwargs)
 
